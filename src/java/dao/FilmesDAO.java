@@ -238,7 +238,8 @@ public class FilmesDAO {
     }
     
     public static String backupData(){
-        String backupText = "INSERT INTO \""+TABLE_NAME+"\"(\""+COL_ID+"\", \""+COL_TITLE+"\", \""+COL_GENRE+"\", \""+COL_NUMBER+"\", \""+COL_NET+"\", \""+COL_ATHOME+"\", \""+COL_WATCHED+"\") VALUES";
+        //String backupText = "INSERT INTO \""+TABLE_NAME+"\"(\""+COL_ID+"\", \""+COL_TITLE+"\", \""+COL_GENRE+"\", \""+COL_NUMBER+"\", \""+COL_NET+"\", \""+COL_ATHOME+"\", \""+COL_WATCHED+"\") VALUES";
+        String backupText = "";
         try{
             Class.forName(SQL_DRIVER);
             con = DriverManager.getConnection(DATABASE_CON, USER, PASSWORD);
@@ -261,7 +262,8 @@ public class FilmesDAO {
     }
     
     public static String partialBackup(int limit, int offset){
-        String backupText = "INSERT INTO \""+TABLE_NAME+"\"(\""+COL_ID+"\", \""+COL_TITLE+"\", \""+COL_GENRE+"\", \""+COL_NUMBER+"\", \""+COL_NET+"\", \""+COL_ATHOME+"\", \""+COL_WATCHED+"\") VALUES";
+        //String backupText = "INSERT INTO \""+TABLE_NAME+"\"(\""+COL_ID+"\", \""+COL_TITLE+"\", \""+COL_GENRE+"\", \""+COL_NUMBER+"\", \""+COL_NET+"\", \""+COL_ATHOME+"\", \""+COL_WATCHED+"\") VALUES";
+        String backupText = "";
         try{
             Class.forName(SQL_DRIVER);
             con = DriverManager.getConnection(DATABASE_CON, USER, PASSWORD);
