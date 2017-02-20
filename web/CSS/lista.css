@@ -1,0 +1,284 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 29, 2017, 11:14:17 PM
+    Author     : murilo
+*/
+
+* {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background: #72767d;
+    font-family: "Roboto", helvetica, arial, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/*
+    DEFINIÇÃO DO ESTILO DA BARRA DE NAVEGAÇÃO
+*/
+
+.nav_bar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    color: whitesmoke;
+    font-weight: lighter;
+    background-color: black;
+    padding-top: 0;
+    padding-left: 15px;
+    padding-bottom: 10px;
+    border-bottom: 4px solid #1B1E24;
+    z-index: 999;
+}
+
+.nav_bar a {
+    text-decoration: none;
+}
+
+.nav_bar button {
+    margin-left: 10px;
+    font-size: 19px;
+    color: whitesmoke;
+    text-align: center;
+    text-decoration: none;
+}
+
+.nav_bar a:visited {
+    padding-top: 100%;
+    color: whitesmoke;
+}
+
+.nav_bar_item {
+    height: 74px;
+    background: #000000;
+    padding-bottom: 12px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 30px;
+    border-bottom: 4px solid #1B1E24;
+}
+
+a {
+    color: greenyellow;
+}
+
+.nav_bar_item:hover, .nav_bar_item:focus, .nav_bar_item:active {
+    background: #72767d;
+    border: 0;
+    border-bottom: 4px solid white;
+}
+
+/*
+    DEFINIÇÃO DO ESTILO DA SEARCH GEAR
+*/
+
+.search_box {
+    margin: 100px auto 30px auto;
+    width: 440px;
+    height: 50px;
+}
+
+.search_gear_wrapper-4 {
+   display: inline-block;
+  overflow: hidden;
+  width: 320px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.search_gear_wrapper-4 input#search{
+    display: inline-block;
+    width: 300px;
+    height: 50px;
+    background: #2b303b;
+    border: none;
+    font-size: 12pt;
+    float: left;
+    color: #fff;
+    padding-left: 15px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.search_gear_wrapper-4 input#search::-webkit-input-placeholder {
+   color: #9EA7AF;
+}
+ 
+.search_gear_wrapper-4 input#search:-ms-input-placeholder {  
+   color: #9EA7AF;  
+}
+
+.search_gear_wrapper-4 button.search_icon{
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+ 
+  border: none;
+  background: #232833;
+  height: 50px;
+  width: 50px;
+  color: #4f5b66;
+  opacity: 0;
+  font-size: 10pt;
+ 
+  -webkit-transition: all .55s ease;
+  -moz-transition: all .55s ease;
+  -ms-transition: all .55s ease;
+  -o-transition: all .55s ease;
+  transition: all .55s ease;
+}
+
+.search_gear_wrapper-4:hover button.search_icon, .search_gear_wrapper-4:active button.search_icon, .search_gear_wrapper-4:focus button.search_icon{
+    outline: none;
+    opacity: 1;
+    margin-left: -50px;
+  }
+ 
+  .search_gear_wrapper-4:hover button.search_icon:hover{
+    background: white;
+  }
+
+  button:hover {
+      cursor: pointer;
+  }
+  
+.drop-down-search-menu {
+    display: inline-block;
+    width: 100px;
+    height: 50px;
+    background: #1b1e24;
+    color: #d5dde5;
+    font-size: 12pt;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+.drop-down-search-menu:hover {
+    background: #424750;
+}
+/*
+    DEFINIÇÃO DO ESTILO DA TABELA
+*/
+
+table {
+    border-collapse: collapse;
+    margin-bottom: 100px;
+}
+
+th {
+    color: #D5DDE5;
+    background: #1B1E24;
+    border-bottom: 4px solid #9EA7AF;
+    border-right: 1px solid #343A45;
+    font-size: 23px;
+    font-weight: 100;
+    padding-left: 10px;
+    padding-top: 25px;
+    padding-bottom: 8px;
+    text-align: left;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    vertical-align: middle;
+}
+
+td {
+    background: #FFFFFF;
+    padding: 2px;
+    text-align: left;
+    vertical-align: middle;
+    font-weight: 300;
+    font-size: 18px;
+    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #ABABAB;
+    cursor: pointer;
+    white-space: nowrap;
+    text-transform: capitalize;
+}
+
+.table_wrapper tr:nth-child(odd) td {
+    background: #EBEBEB;
+}
+
+.table_wrapper tr:hover td {
+    background: #40a74f;
+    color: #FFFFFF;
+    border-top: 1px solid #22262e;
+    border-bottom: 1px solid #22262e;
+}
+
+td, th {
+    display: table-cell;
+}
+
+th.col_title {
+    border-left: 0;
+    border-top-left-radius: 7px;
+}
+
+th.col_emcasa {
+    text-align: left;
+    border-right: 0;
+    border-top-right-radius: 7px;
+}
+
+th.col_net {
+    text-align: left;
+}
+
+th.col_number {
+    text-align: left;
+}
+
+.col_title {
+    border-left: 1px solid #ABABAB;
+    padding-left: 10px;
+    width: 585px;
+}
+
+.col_genre {
+    border-left: 1px solid #ABABAB;
+    padding-left: 10px;
+    width: 185px;
+}
+
+.col_number {
+    border-left: 1px solid #ABABAB;
+    text-align: center;
+    width: 11%;
+}
+
+.col_net {
+    border-left: 1px solid #ABABAB;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    width: 7%;
+}
+
+.col_emcasa {
+    border-left: 1px solid #ABABAB;
+    border-right: 1px solid #ABABAB;
+    text-align: center;
+    vertical-align: middle;
+    width: 12%;
+}
+
+.table_wrapper {
+    width: 90%;
+    margin: 0 auto;
+}
