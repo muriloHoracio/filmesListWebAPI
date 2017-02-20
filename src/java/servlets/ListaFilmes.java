@@ -67,6 +67,12 @@ public class ListaFilmes extends HttpServlet {
                 response.getWriter().write(FilmesDAO.partialBackup(Integer.parseInt(request.getParameter("limit")), Integer.parseInt(request.getParameter("offset"))));
                 return;
             }
+            if(reqType.equals("drop_table")){
+                response.getWriter().write(Boolean.toString(FilmesDAO.dropTable()));
+            }
+            if(reqType.equals("create_table")){
+                response.getWriter().write(Boolean.toString(FilmesDAO.createTable()));
+            }
             if(reqType.equals("save")){
                 Calendar cal = new GregorianCalendar();
                 int year = cal.get(Calendar.YEAR);
@@ -90,7 +96,7 @@ public class ListaFilmes extends HttpServlet {
                 return;
             }
             if(reqType.equals("films_count")){
-                response.getWriter().write(FilmesDAO.filmsCount()+" >> Filmes");
+                response.getWriter().write(FilmesDAO.filmsCount()+"");
                 return;
             }
             if(reqType.equals("search")){
@@ -108,7 +114,7 @@ public class ListaFilmes extends HttpServlet {
                 }
             }
             if(reqType.equals("last_number")){
-                response.getWriter().write((Integer.parseInt(FilmesDAO.lastNumber())+1)+"");
+                response.getWriter().write((FilmesDAO.lastNumber()+1)+"");
                 return;
             }
         }
@@ -125,14 +131,16 @@ public class ListaFilmes extends HttpServlet {
                             + "\"genero\":\""+f.getGenero()+"\","
                             + "\"numero\":"+f.getNumero()+","
                             + "\"net\":"+f.isNet()+","
-                            + "\"emcasa\":"+f.isEmcasa()+"}";
+                            + "\"emcasa\":"+f.isEmcasa()+","
+                            + "\"watched\":"+f.isWatched()+"}";
                     else
                         json_response += "{\"id\":"+f.getID()+","
                             + "\"titulo\":\""+f.getTitulo().replace("\"", "\\\"")+"\","
                             + "\"genero\":\""+f.getGenero()+"\","
                             + "\"numero\":"+f.getNumero()+","
                             + "\"net\":"+f.isNet()+","
-                            + "\"emcasa\":"+f.isEmcasa()+"},";
+                            + "\"emcasa\":"+f.isEmcasa()+","
+                            + "\"watched\":"+f.isWatched()+"},";
                 }
             }
             json_response += "]";
@@ -160,7 +168,8 @@ public class ListaFilmes extends HttpServlet {
                         request.getParameter("genero"),
                         Integer.parseInt(request.getParameter("numero")),
                         Boolean.parseBoolean(request.getParameter("net")),
-                        Boolean.parseBoolean(request.getParameter("emcasa"))
+                        Boolean.parseBoolean(request.getParameter("emcasa")),
+                        Boolean.parseBoolean(request.getParameter("watched"))
                     )
                 );
             } else if(request.getParameter("reqType").equals("edit")) {
@@ -171,7 +180,8 @@ public class ListaFilmes extends HttpServlet {
                         request.getParameter("genero"),
                         Integer.parseInt(request.getParameter("numero")),
                         Boolean.parseBoolean(request.getParameter("net")),
-                        Boolean.parseBoolean(request.getParameter("emcasa"))
+                        Boolean.parseBoolean(request.getParameter("emcasa")),
+                        Boolean.parseBoolean(request.getParameter("watched"))
                     )
                 );
             } else if(request.getParameter("reqType").equals("delete")) {

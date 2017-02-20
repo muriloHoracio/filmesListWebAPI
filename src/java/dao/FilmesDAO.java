@@ -11,6 +11,7 @@ import java.util.List;
 import entity.Filme;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import javax.naming.spi.DirStateFactory;
 
@@ -38,22 +39,14 @@ public class FilmesDAO {
         try{
             Class.forName(SQL_DRIVER);
             con = DriverManager.getConnection(DATABASE_CON, USER, PASSWORD);
-            String sql = "CREATE TABLE IF NOT EXISTS ?(? SERIAL PRIMARY KEY, ? VARCHAR, ? VARCHAR, ? INTEGER, ? BOOLEAN, ? BOOLEAN, ? BOOLEAN);";
-            ps = con.prepareStatement(sql);
-            ps.setString(1, TABLE_NAME);
-            ps.setString(2, COL_ID);
-            ps.setString(3, COL_TITLE);
-            ps.setString(4, COL_GENRE);
-            ps.setString(5, COL_NUMBER);
-            ps.setString(6, COL_NET);
-            ps.setString(7, COL_ATHOME);
-            ps.setString(8, COL_WATCHED);
-            int r = ps.executeUpdate();
-            ps.close();
+            String sql = "CREATE TABLE IF NOT EXISTS \""+TABLE_NAME+"\" ( \""+COL_ID+"\" SERIAL PRIMARY KEY, \""+COL_TITLE+"\" VARCHAR, \""+COL_GENRE+"\" VARCHAR, \""+COL_NUMBER+"\" INTEGER, \""+COL_NET+"\" BOOLEAN, \""+COL_ATHOME+"\" BOOLEAN, \""+COL_WATCHED+"\" BOOLEAN);";
+            Statement st = con.createStatement();
+            st.executeUpdate(sql);
+            st.close();
             con.close();
-            return (r>0);
+            return true;
         } catch(Exception e) {
-            
+            e.printStackTrace();
         }
         return false;
     }
@@ -62,11 +55,12 @@ public class FilmesDAO {
         try{
             Class.forName(SQL_DRIVER);
             con = DriverManager.getConnection(DATABASE_CON,USER,PASSWORD);
-            String sql = "DROP TABLE IF EXISTS ?;";
-            ps = con.prepareStatement(sql);
-            ps.setString(1, TABLE_NAME);
-            int r = ps.executeUpdate();
-            return (r>0);
+            String sql = "DROP TABLE IF EXISTS \""+TABLE_NAME+"\";";
+            Statement st = con.createStatement();
+            st.executeUpdate(sql);
+            st.close();
+            con.close();
+            return true;
         } catch(Exception e){
             
         }
@@ -78,14 +72,15 @@ public class FilmesDAO {
             List<Filme> list = new ArrayList<>();
             Class.forName(SQL_DRIVER);
             con = DriverManager.getConnection(DATABASE_CON, USER, PASSWORD);
-            String sql = "SELECT * FROM filme WHERE \"ID\" >= ? LIMIT ?;";
+            String sql = "SELECT * FROM \""+TABLE_NAME+"\" WHERE \""+COL_ID+"\" >= ? LIMIT ?;";
             ps = con.prepareStatement(sql);
             ps.setInt(1, idFirst);
             ps.setInt(2, limit);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                list.add(new Filme(rs.getInt("ID"),rs.getString("Titulo"),rs.getString("Genero"),rs.getInt("Numero"),rs.getBoolean("Net"),rs.getBoolean("EmCasa")));
+                list.add(new Filme(rs.getInt(COL_ID),rs.getString(COL_TITLE),rs.getString(COL_GENRE),rs.getInt(COL_NUMBER),rs.getBoolean(COL_NET),rs.getBoolean(COL_ATHOME),rs.getBoolean(COL_WATCHED)));
             }
+            ps.close();
             con.close();
             return list;
         }catch(Exception e){
@@ -101,22 +96,23 @@ public class FilmesDAO {
             con = DriverManager.getConnection(DATABASE_CON, USER, PASSWORD);
             String sql = "";
             if(type.equals("Título")){
-                sql = "SELECT * FROM filme WHERE \"Titulo\" ILIKE ? ORDER BY \"Titulo\" ASC LIMIT 25;";
+                sql = "SELECT * FROM \""+TABLE_NAME+"\" WHERE \""+COL_TITLE+"\" ILIKE ? ORDER BY \""+COL_TITLE+"\" ASC LIMIT 25;";
                 ps = con.prepareStatement(sql);
                 ps.setString(1,"%"+query+"%");
             } else if(type.equals("Gênero")) {
-                sql = "SELECT * FROM filme WHERE \"Genero\" ILIKE ? ORDER BY \"Titulo\",\"Genero\" ASC LIMIT 25;";
+                sql = "SELECT * FROM \""+TABLE_NAME+"\" WHERE \""+COL_GENRE+"\" ILIKE ? ORDER BY \""+COL_TITLE+"\",\""+COL_GENRE+"\" ASC LIMIT 25;";
                 ps = con.prepareStatement(sql);
                 ps.setString(1,"%"+query+"%");
             } else if(type.equals("Número")) {
-                sql = "SELECT * FROM filme WHERE \"Numero\" = ? ORDER BY \"Titulo\" ASC LIMIT 25;";
+                sql = "SELECT * FROM \""+TABLE_NAME+"\" WHERE \""+COL_NUMBER+"\" = ? ORDER BY \""+COL_TITLE+"\" ASC LIMIT 25;";
                 ps = con.prepareStatement(sql);
                 ps.setInt(1,Integer.parseInt(query));
             }
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                list.add(new Filme(rs.getInt("ID"),rs.getString("Titulo"),rs.getString("Genero"),rs.getInt("Numero"),rs.getBoolean("Net"),rs.getBoolean("EmCasa")));
+                list.add(new Filme(rs.getInt(COL_ID),rs.getString(COL_TITLE),rs.getString(COL_GENRE),rs.getInt(COL_NUMBER),rs.getBoolean(COL_NET),rs.getBoolean(COL_ATHOME),rs.getBoolean(COL_WATCHED)));
             }
+            ps.close();
             con.close();
             return list;
         }catch(Exception e){
@@ -132,25 +128,26 @@ public class FilmesDAO {
             con = DriverManager.getConnection(DATABASE_CON, USER, PASSWORD);
             String sql = "";
             if(type.equals("Título")){
-                sql = "SELECT * FROM filme WHERE \"Titulo\" ILIKE ? ORDER BY \"Titulo\" ASC LIMIT 25 OFFSET ?;";
+                sql = "SELECT * FROM \""+TABLE_NAME+"\" WHERE \""+COL_TITLE+"\" ILIKE ? ORDER BY \""+COL_TITLE+"\" ASC LIMIT 25 OFFSET ?;";
                 ps = con.prepareStatement(sql);
                 ps.setString(1,"%"+query+"%");
                 ps.setInt(2, data_offset*25);
             } else if(type.equals("Gênero")) {
-                sql = "SELECT * FROM filme WHERE \"Genero\" ILIKE ? ORDER BY \"Titulo\",\"Genero\" ASC LIMIT 25 OFFSET ?;";
+                sql = "SELECT * FROM \""+TABLE_NAME+"\" WHERE \""+COL_GENRE+"\" ILIKE ? ORDER BY \""+COL_TITLE+"\",\""+COL_GENRE+"\" ASC LIMIT 25 OFFSET ?;";
                 ps = con.prepareStatement(sql);
                 ps.setString(1,"%"+query+"%");
                 ps.setInt(2, data_offset*25);
             } else if(type.equals("Número")) {
-                sql = "SELECT * FROM filme WHERE \"Numero\" = ? ORDER BY \"Titulo\" ASC LIMIT 25 OFFSET ?;";
+                sql = "SELECT * FROM \""+TABLE_NAME+"\" WHERE \""+COL_NUMBER+"\" = ? ORDER BY \""+COL_TITLE+"\" ASC LIMIT 25 OFFSET ?;";
                 ps = con.prepareStatement(sql);
                 ps.setInt(1,Integer.parseInt(query));
                 ps.setInt(2, data_offset*25);
             }
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                list.add(new Filme(rs.getInt("ID"),rs.getString("Titulo"),rs.getString("Genero"),rs.getInt("Numero"),rs.getBoolean("Net"),rs.getBoolean("EmCasa")));
+                list.add(new Filme(rs.getInt(COL_ID),rs.getString(COL_TITLE),rs.getString(COL_GENRE),rs.getInt(COL_NUMBER),rs.getBoolean(COL_NET),rs.getBoolean(COL_ATHOME),rs.getBoolean(COL_WATCHED)));
             }
+            ps.close();
             con.close();
             return list;
         }catch(Exception e){
@@ -159,40 +156,39 @@ public class FilmesDAO {
         return null;
     }
     
-    public static String lastNumber(){
+    public static int lastNumber(){
         try{
             Class.forName(SQL_DRIVER);
             con = DriverManager.getConnection(DATABASE_CON, USER, PASSWORD);
-            String sql = "SELECT MAX(\"Numero\") FROM filme;";
+            String sql = "SELECT MAX(\""+COL_NUMBER+"\") FROM \""+TABLE_NAME+"\";";
             ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
+                int r = rs.getInt(1);
+                ps.close();
                 con.close();
-                return rs.getInt(1)+"";
+                return r;
             }
         }catch(Exception e){
-            
+            e.printStackTrace();
         }
-        return null;
+        return 0;
     }
     
-    public static boolean addMovie(String titulo, String genero, int numero, boolean net, boolean emcasa){
+    public static boolean addMovie(String titulo, String genero, int numero, boolean net, boolean emcasa, boolean watched){
         try{
-            System.out.println("titulo: "+titulo);
-            System.out.println("genero: "+genero);
-            System.out.println("numero: "+numero);
-            System.out.println("net: "+net);
-            System.out.println("emcasa: "+emcasa);
             Class.forName(SQL_DRIVER);
             con = DriverManager.getConnection(DATABASE_CON, USER, PASSWORD);
-            String sql = "INSERT INTO filme(\"Titulo\",\"Genero\",\"Numero\",\"Net\",\"EmCasa\") VALUES(?,?,?,?,?);";
+            String sql = "INSERT INTO \""+TABLE_NAME+"\"(\""+COL_TITLE+"\",\""+COL_GENRE+"\",\""+COL_NUMBER+"\",\""+COL_NET+"\",\""+COL_ATHOME+"\",\""+COL_WATCHED+"\") VALUES(?,?,?,?,?,?);";
             ps = con.prepareStatement(sql);
             ps.setString(1, titulo);
             ps.setString(2, genero);
             ps.setInt(3, numero);
             ps.setBoolean(4, net);
             ps.setBoolean(5, emcasa);
+            ps.setBoolean(6, watched);
             boolean result = ps.executeUpdate()>0;
+            ps.close();
             con.close();
             return (result);
         }catch(Exception e){
@@ -201,19 +197,21 @@ public class FilmesDAO {
         return false;
     }
     
-    public static boolean editMovie(int id, String titulo, String genero, int numero, boolean net, boolean emcasa){
+    public static boolean editMovie(int id, String titulo, String genero, int numero, boolean net, boolean emcasa, boolean watched){
         try{
             Class.forName(SQL_DRIVER);
             con = DriverManager.getConnection(DATABASE_CON, USER, PASSWORD);
-            String sql = "UPDATE filme SET \"Titulo\" = ?, \"Genero\" = ?, \"Numero\" = ?, \"Net\" = ?, \"EmCasa\" = ? WHERE \"ID\" = ?;";
+            String sql = "UPDATE \""+TABLE_NAME+"\" SET \""+COL_TITLE+"\" = ?, \""+COL_GENRE+"\" = ?, \""+COL_NUMBER+"\" = ?, \""+COL_NET+"\" = ?, \""+COL_ATHOME+"\" = ?, \""+COL_WATCHED+"\" = ? WHERE \""+COL_ID+"\" = ?;";
             ps = con.prepareStatement(sql);
             ps.setString(1, titulo);
             ps.setString(2, genero);
             ps.setInt(3, numero);
             ps.setBoolean(4, net);
             ps.setBoolean(5, emcasa);
-            ps.setInt(6, id);
+            ps.setBoolean(6, watched);
+            ps.setInt(7, id);
             boolean result = ps.executeUpdate()>0;
+            ps.close();
             con.close();
             return (result);
         }catch(Exception e){
@@ -226,10 +224,11 @@ public class FilmesDAO {
         try{
             Class.forName(SQL_DRIVER);
             con = DriverManager.getConnection(DATABASE_CON, USER, PASSWORD);
-            String sql = "DELETE FROM filme WHERE \"ID\" = ?;";
+            String sql = "DELETE FROM \""+TABLE_NAME+"\" WHERE \""+COL_ID+"\" = ?;";
             ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             boolean result = ps.executeUpdate()>0;
+            ps.close();
             con.close();
             return (result);
         }catch(Exception e){
@@ -239,19 +238,21 @@ public class FilmesDAO {
     }
     
     public static String backupData(){
-        String backupText = "INSERT INTO filme(\"ID\", \"EmCasa\", \"Genero\", \"Net\", \"Numero\", \"Titulo\") VALUES";
+        String backupText = "INSERT INTO \""+TABLE_NAME+"\"(\""+COL_ID+"\", \""+COL_TITLE+"\", \""+COL_GENRE+"\", \""+COL_NUMBER+"\", \""+COL_NET+"\", \""+COL_ATHOME+"\", \""+COL_WATCHED+"\") VALUES";
         try{
             Class.forName(SQL_DRIVER);
             con = DriverManager.getConnection(DATABASE_CON, USER, PASSWORD);
-            ps = con.prepareStatement("SELECT * FROM filme;");
+            ps = con.prepareStatement("SELECT * FROM \""+TABLE_NAME+"\";");
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                backupText += "("+rs.getInt("ID")+","+rs.getBoolean("EmCasa")+",'"+rs.getString("Genero")+"',"+rs.getBoolean("Net")+","+rs.getInt("Numero")+",'"+rs.getString("Titulo")+"')";
+                backupText += "("+rs.getInt(COL_ID)+",'"+rs.getString(COL_TITLE)+"','"+rs.getString(COL_GENRE)+"',"+rs.getInt(COL_NUMBER)+","+rs.getBoolean(COL_NET)+","+rs.getBoolean(COL_ATHOME)+","+rs.getString(COL_WATCHED)+")";
             }
             while(rs.next()){
-                backupText += ",("+rs.getInt("ID")+","+rs.getBoolean("EmCasa")+",'"+rs.getString("Genero")+"',"+rs.getBoolean("Net")+","+rs.getInt("Numero")+",'"+rs.getString("Titulo")+"')";
+                backupText += ",("+rs.getInt(COL_ID)+",'"+rs.getString(COL_TITLE)+"','"+rs.getString(COL_GENRE)+"',"+rs.getInt(COL_NUMBER)+","+rs.getBoolean(COL_NET)+","+rs.getBoolean(COL_ATHOME)+","+rs.getString(COL_WATCHED)+")";
             }
             backupText += ";";
+            ps.close();
+            con.close();
             return backupText;
         }catch(Exception e){
             
@@ -260,23 +261,25 @@ public class FilmesDAO {
     }
     
     public static String partialBackup(int limit, int offset){
-        String backupText = "INSERT INTO filme(\"ID\", \"EmCasa\", \"Genero\", \"Net\", \"Numero\", \"Titulo\") VALUES";
+        String backupText = "INSERT INTO \""+TABLE_NAME+"\"(\""+COL_ID+"\", \""+COL_TITLE+"\", \""+COL_GENRE+"\", \""+COL_NUMBER+"\", \""+COL_NET+"\", \""+COL_ATHOME+"\", \""+COL_WATCHED+"\") VALUES";
         try{
             Class.forName(SQL_DRIVER);
             con = DriverManager.getConnection(DATABASE_CON, USER, PASSWORD);
-            ps = con.prepareStatement("SELECT * FROM filme LIMIT ? OFFSET ?;");
+            ps = con.prepareStatement("SELECT * FROM \""+TABLE_NAME+"\" LIMIT ? OFFSET ?;");
             ps.setInt(1, limit);
             ps.setInt(2, offset);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                backupText += "("+rs.getInt("ID")+","+(rs.getBoolean("EmCasa")?1:0)+",'"+rs.getString("Genero")+"',"+(rs.getBoolean("Net")?1:0)+","+rs.getInt("Numero")+",'"+rs.getString("Titulo")+"')";
+                backupText += "("+rs.getInt(COL_ID)+",'"+rs.getString(COL_TITLE)+"','"+rs.getString(COL_GENRE)+"',"+rs.getInt(COL_NUMBER)+","+rs.getBoolean(COL_NET)+","+rs.getBoolean(COL_ATHOME)+","+rs.getString(COL_WATCHED)+")";
             } else {
                 return "";
             }
             while(rs.next()){
-                backupText += ",("+rs.getInt("ID")+","+(rs.getBoolean("EmCasa")?1:0)+",'"+rs.getString("Genero")+"',"+(rs.getBoolean("Net")?1:0)+","+rs.getInt("Numero")+",'"+rs.getString("Titulo")+"')";
+                backupText += ",("+rs.getInt(COL_ID)+",'"+rs.getString(COL_TITLE)+"','"+rs.getString(COL_GENRE)+"',"+rs.getInt(COL_NUMBER)+","+rs.getBoolean(COL_NET)+","+rs.getBoolean(COL_ATHOME)+","+rs.getString(COL_WATCHED)+")";
             }
             backupText += ";";
+            ps.close();
+            con.close();
             return backupText;
         }catch(Exception e){
             
@@ -288,10 +291,13 @@ public class FilmesDAO {
         try{
             Class.forName(SQL_DRIVER);
             con = DriverManager.getConnection(DATABASE_CON, USER, PASSWORD);
-            ps = con.prepareStatement("SELECT count(*) AS \"FilmesCount\" FROM filme;");
+            ps = con.prepareStatement("SELECT COUNT(*) AS \"FilmesCount\" FROM \""+TABLE_NAME+"\";");
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
-                return rs.getInt("FilmesCount");
+                int r = rs.getInt("FilmesCount");
+                ps.close();
+                con.close();
+                return r;
             }
         }catch(Exception e){
             
@@ -304,12 +310,12 @@ public class FilmesDAO {
         try{
             Class.forName(SQL_DRIVER);
             con = DriverManager.getConnection(DATABASE_CON, USER, PASSWORD);
-            ps = con.prepareStatement("SELECT * FROM filme ORDER BY \"Titulo\" LIMIT ? OFFSET ?;");
+            ps = con.prepareStatement("SELECT * FROM \""+TABLE_NAME+"\" ORDER BY \""+COL_TITLE+"\" LIMIT ? OFFSET ?;");
             ps.setInt(1, limit);
             ps.setInt(2, offset);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                films.add(new Filme(rs.getInt("ID"), rs.getString("Titulo"), rs.getString("Genero"), rs.getInt("Numero"), rs.getBoolean("Net"), rs.getBoolean("EmCasa")));
+                films.add(new Filme(rs.getInt(COL_ID),rs.getString(COL_TITLE),rs.getString(COL_GENRE),rs.getInt(COL_NUMBER),rs.getBoolean(COL_NET),rs.getBoolean(COL_ATHOME),rs.getBoolean(COL_WATCHED)));
             }
             ps.close();
             con.close();
@@ -325,10 +331,10 @@ public class FilmesDAO {
         try{
             Class.forName(SQL_DRIVER);
             con = DriverManager.getConnection(DATABASE_CON, USER, PASSWORD);
-            ps = con.prepareStatement("SELECT * FROM filme ORDER BY \"Titulo\";");
+            ps = con.prepareStatement("SELECT * FROM \""+TABLE_NAME+"\" ORDER BY \""+COL_TITLE+"\";");
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                films.add(new Filme(rs.getInt("ID"), rs.getString("Titulo"), rs.getString("Genero"), rs.getInt("Numero"), rs.getBoolean("Net"), rs.getBoolean("EmCasa")));
+                films.add(new Filme(rs.getInt(COL_ID),rs.getString(COL_TITLE),rs.getString(COL_GENRE),rs.getInt(COL_NUMBER),rs.getBoolean(COL_NET),rs.getBoolean(COL_ATHOME),rs.getBoolean(COL_WATCHED)));
             }
             ps.close();
             con.close();

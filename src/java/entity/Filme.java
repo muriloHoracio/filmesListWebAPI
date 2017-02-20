@@ -18,14 +18,16 @@ public class Filme {
     private int numero;
     private boolean net;
     private boolean emcasa;
+    private boolean watched;
 
-    public Filme(int ID, String titulo, String genero, int numero, boolean net, boolean emcasa) {
+    public Filme(int ID, String titulo, String genero, int numero, boolean net, boolean emcasa, boolean watched) {
         this.ID = ID;
         this.titulo = titulo;
         this.genero = genero;
         this.numero = numero;
         this.net = net;
         this.emcasa = emcasa;
+        this.watched = watched;
     }
 
     public int getID() {
@@ -76,15 +78,24 @@ public class Filme {
         this.emcasa = emcasa;
     }
 
+    public boolean isWatched() {
+        return watched;
+    }
+
+    public void setWatched(boolean watched) {
+        this.watched = watched;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 79 * hash + this.ID;
-        hash = 79 * hash + Objects.hashCode(this.titulo);
-        hash = 79 * hash + Objects.hashCode(this.genero);
-        hash = 79 * hash + this.numero;
-        hash = 79 * hash + (this.net ? 1 : 0);
-        hash = 79 * hash + (this.emcasa ? 1 : 0);
+        int hash = 7;
+        hash = 41 * hash + this.ID;
+        hash = 41 * hash + Objects.hashCode(this.titulo);
+        hash = 41 * hash + Objects.hashCode(this.genero);
+        hash = 41 * hash + this.numero;
+        hash = 41 * hash + (this.net ? 1 : 0);
+        hash = 41 * hash + (this.emcasa ? 1 : 0);
+        hash = 41 * hash + (this.watched ? 1 : 0);
         return hash;
     }
 
@@ -112,6 +123,9 @@ public class Filme {
         if (this.emcasa != other.emcasa) {
             return false;
         }
+        if (this.watched != other.watched) {
+            return false;
+        }
         if (!Objects.equals(this.titulo, other.titulo)) {
             return false;
         }
@@ -119,5 +133,7 @@ public class Filme {
             return false;
         }
         return true;
-    }   
+    }
+
+       
 }

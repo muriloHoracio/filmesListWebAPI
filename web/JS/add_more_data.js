@@ -27,6 +27,7 @@ function add_more_data(search,type){
                             "<td class=\"col_number\">"+list[i].numero+"</td>" +
                             "<td class=\"col_net\"><input type=\"checkbox\" class=\"table_checkbox\""+((list[i].net)?("checked"):(""))+" disabled></td>" +
                             "<td class=\"col_emcasa\"><input type=\"checkbox\" class=\"table_checkbox\""+((list[i].emcasa)?("checked"):(""))+" disabled></td>" +
+                            "<td class=\"col_watched\"><input type=\"checkbox\" class=\"table_checkbox\""+((list[i].watched)?("checked"):(""))+" disabled></td>" +
                         "</tr>");
                 }
             }

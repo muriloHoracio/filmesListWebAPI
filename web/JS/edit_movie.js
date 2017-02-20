@@ -7,7 +7,7 @@
 
 /* global tr_selected */
 
-function edit_movie(id, titulo, genero, numero, net, emcasa) {
+function edit_movie(id, titulo, genero, numero, net, emcasa, watched) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function (){
             if(this.readyState === 4 && this.status === 200){
@@ -20,6 +20,7 @@ function edit_movie(id, titulo, genero, numero, net, emcasa) {
                     fields[2].innerHTML = numero;
                     inputs[1].checked = net;
                     inputs[2].checked = emcasa;
+                    inputs[3].checked = watched;
                     hide_item_box();
                     clear_item_box();
                     search_movie(document.getElementById("search").value);
@@ -30,5 +31,5 @@ function edit_movie(id, titulo, genero, numero, net, emcasa) {
     };
     xhttp.open("POST","ListaFilmes",true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
-    xhttp.send("reqType=edit&id="+id+"&titulo="+titulo+"&genero="+genero+"&numero="+numero+"&net="+net+"&emcasa="+emcasa);
+    xhttp.send("reqType=edit&id="+id+"&titulo="+titulo+"&genero="+genero+"&numero="+numero+"&net="+net+"&emcasa="+emcasa+"&watched="+watched);
 }

@@ -19,6 +19,7 @@ function clear_item_box() {
     document.getElementById("input_numero").value = "";
     document.getElementById("input_net").checked = true;
     document.getElementById("input_emcasa").checked = true;
+    document.getElementById("input_watched").checked = false;
 }
 
 function fill_item_box(filme) {
@@ -27,6 +28,7 @@ function fill_item_box(filme) {
     document.getElementById("input_numero").value = filme.numero;
     document.getElementById("input_net").checked = filme.net;
     document.getElementById("input_emcasa").checked = filme.emcasa;
+    document.getElementById("input_watched").checked = filme.watched;
 }
 
 function disable_fields_item_box() {
@@ -35,6 +37,7 @@ function disable_fields_item_box() {
     document.getElementById("input_numero").disabled = true;
     document.getElementById("input_net").disabled = true;
     document.getElementById("input_emcasa").disabled = true;
+    document.getElementById("input_watched").disabled = true;
 }
 
 function enable_fields_item_box() {
@@ -43,6 +46,7 @@ function enable_fields_item_box() {
     document.getElementById("input_numero").disabled = false;
     document.getElementById("input_net").disabled = false;
     document.getElementById("input_emcasa").disabled = false;
+    document.getElementById("input_watched").disabled = false;
 }
 
 function show_add_options() {

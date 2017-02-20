@@ -26,7 +26,7 @@ button, select {
     z-index: 1001;
     position: fixed;
     width: 700px;
-    height: 320px;
+    height: 350px;
     background-color: #FFFFFF;
     border-radius: 9px;
     left: 23.5%;
@@ -52,7 +52,7 @@ button, select {
     display: block;
 }
 
-#first_row input {
+#first_row input, #second_row input, #third_row input {
     width: 80%;
 }
 

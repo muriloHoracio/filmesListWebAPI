@@ -25,7 +25,7 @@
         <script type="text/javascript" src="JS/delete_movie.js"></script>
         <scritp type="text/javascript" src="JS/save_data.js"></script>
         <script type="text/javascript">
-            var filme = {id:0,titulo:"",genero:"",numero:0,net:false,emcasa:false};
+            var filme = {id:0,titulo:"",genero:"",numero:0,net:false,emcasa:false,watched:false};
             var offset_times = 0;
             var scroll_aux = 0;
             var tr_selected = null;
@@ -64,11 +64,14 @@
                 </span>
                 <span id="second_row">
                     <label>Gênero:</label><input id="input_genero" type="text" list="generos" autocomplete="off"/>
-                    <label id="label_net">Net:</label><input id="input_net" type="checkbox" checked="checked" style="width: 25px;"/>
                 </span>
                 <span id="third_row">
                     <label>Número:</label><input type="number" id="input_numero"/>
-                    <label id="label_emcasa">Em Casa:</label><input id="input_emcasa" type="checkbox" checked="checked" style="width: 25px;"/>
+                </span>
+                <span id="third_bottom_row">
+                    <label id="label_net">Net:</label><input id="input_net" type="checkbox" checked="checked" style="width: 25px;"/>
+                    <label id="label_emcasa" style="margin-left: 50px;">Em Casa:</label><input id="input_emcasa" type="checkbox" checked="checked" style="width: 25px;"/>
+                    <label id="label_watched" style="margin-left: 50px;">Assistido:</label><input id="input_watched" type="checkbox" style="width: 25px;"/>
                 </span>
                 <span id="forth_row">
                     <div id="add_action_options">
@@ -101,6 +104,7 @@
                     <th class="col_number">Número</th>
                     <th class="col_net">Net</th>
                     <th class="col_emcasa">Em Casa</th>
+                    <th class="col_watched">Assistido</th>
                 </tr>
                 <tr></tr>
             </table>
@@ -115,7 +119,8 @@
                     document.getElementById("input_genero").value,
                     document.getElementById("input_numero").value,
                     document.getElementById("input_net").checked,
-                    document.getElementById("input_emcasa").checked
+                    document.getElementById("input_emcasa").checked,
+                    document.getElementById("input_watched").checked
                 );
             });
             document.getElementById("cancel_button").addEventListener("click", function() {
@@ -144,7 +149,8 @@
                     document.getElementById("input_genero").value,
                     document.getElementById("input_numero").value,
                     document.getElementById("input_net").checked,
-                    document.getElementById("input_emcasa").checked
+                    document.getElementById("input_emcasa").checked,
+                    document.getElementById("input_watched").checked
                 );
             });
             document.getElementById("close_item_box_button").addEventListener("click", function () {
@@ -168,6 +174,7 @@
                     filme.numero = fields[2].innerHTML;
                     filme.net = inputs[1].checked;
                     filme.emcasa = inputs[2].checked;
+                    filme.watched = inputs[3].checked;
                     fill_item_box(filme);
                     disable_fields_item_box();
                     show_item_box();

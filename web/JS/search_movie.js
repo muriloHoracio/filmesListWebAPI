@@ -17,6 +17,7 @@ function search_movie(search,type){
                         "<th class=\"col_number\">Número</th>"+
                         "<th class=\"col_net\">Net</th>"+
                         "<th class=\"col_emcasa\">Em Casa</th>"+
+                        "<th class=\"col_watched\">Assistido</th>"+
                     "</tr>";
                 var table = "";
                 for(var i = 0; i < list.length; i++ ){
@@ -28,6 +29,7 @@ function search_movie(search,type){
                             "<td class=\"col_number\">"+list[i].numero+"</td>" +
                             "<td class=\"col_net\"><input type=\"checkbox\" class=\"table_checkbox\""+((list[i].net)?("checked"):(""))+" disabled></td>" +
                             "<td class=\"col_emcasa\"><input type=\"checkbox\" class=\"table_checkbox\""+((list[i].emcasa)?("checked"):(""))+" disabled></td>" +
+                            "<td class=\"col_watched\"><input type=\"checkbox\" class=\"table_checkbox\""+((list[i].watched)?("checked"):(""))+" disabled></td> "+
                         "</tr>");
                 }
                 document.getElementById("table").innerHTML = document.getElementById("table").innerHTML + table;
@@ -44,7 +46,7 @@ function films_count(){
     xhttp.onreadystatechange = function (){
             if(this.readyState === 4 && this.status === 200){
                 console.log(xhttp.responseText);
-                document.getElementById("filmes_count_label").innerHTML = xhttp.responseText;
+                document.getElementById("filmes_count_label").innerHTML = "<span>"+xhttp.responseText+"</span><span style=\"margin-left:20px;\">Filmes</span>";
             }
     };
     xhttp.open("GET","ListaFilmes?reqType=films_count",true);

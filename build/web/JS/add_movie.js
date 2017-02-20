@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-function add_movie(titulo, genero, numero, net, emcasa) {
+function add_movie(titulo, genero, numero, net, emcasa, watched) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function (){
             if(this.readyState === 4 && this.status === 200){
@@ -20,5 +20,5 @@ function add_movie(titulo, genero, numero, net, emcasa) {
     };
     xhttp.open("POST","ListaFilmes",true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
-    xhttp.send("reqType=add&titulo="+titulo+"&genero="+genero+"&numero="+numero+"&net="+net+"&emcasa="+emcasa);
+    xhttp.send("reqType=add&titulo="+titulo+"&genero="+genero+"&numero="+numero+"&net="+net+"&emcasa="+emcasa+"&watched="+watched);
 }

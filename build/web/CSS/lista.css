@@ -230,10 +230,14 @@ th.col_title {
     border-top-left-radius: 7px;
 }
 
-th.col_emcasa {
+th.col_watched {
     text-align: left;
     border-right: 0;
     border-top-right-radius: 7px;
+}
+
+th.col_emcasa {
+    text-align: left;
 }
 
 th.col_net {
@@ -247,7 +251,7 @@ th.col_number {
 .col_title {
     border-left: 1px solid #ABABAB;
     padding-left: 10px;
-    width: 585px;
+    width: 545px;
 }
 
 .col_genre {
@@ -262,6 +266,12 @@ th.col_number {
     width: 11%;
 }
 
+.col_emcasa {
+    border-left: 1px solid #ABABAB;
+    text-align: center;
+    width: 11%;
+}
+
 .col_net {
     border-left: 1px solid #ABABAB;
     text-align: center;
@@ -270,7 +280,7 @@ th.col_number {
     width: 7%;
 }
 
-.col_emcasa {
+.col_watched {
     border-left: 1px solid #ABABAB;
     border-right: 1px solid #ABABAB;
     text-align: center;
